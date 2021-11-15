@@ -6,10 +6,11 @@ Vagrant.configure("2") do |config|
         echo "192.168.56.12  worker-node02" >> /etc/hosts
     SHELL
     
-    config.vm.define "master" do |master|
+    config.vm.define "master", primary: true do |master|
       master.vm.box = "bento/ubuntu-18.04"
       master.vm.hostname = "master-node"
       master.vm.network "private_network", ip: "192.168.56.10"
+      master.vm.network "forwarded_port", guest: 8001, host: 8001
       master.vm.provider "virtualbox" do |vb|
           vb.memory = 4096
           vb.cpus = 2
